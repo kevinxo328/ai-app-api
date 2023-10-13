@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ai-app-api"
+version = "0.1.0"
+description = ""
+authors = ["Kevin Liu <kevinxo328@gmail.com>"]
+readme = "README.md"
+packages = [{include = "ai_app_api"}]
+
+[tool.poetry.dependencies]
+python = "^3.9.0"
+fastapi = "^0.103.2"
+uvicorn = {extras = ["standard"], version = "^0.23.2"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
