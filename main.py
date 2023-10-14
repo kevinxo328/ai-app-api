@@ -6,7 +6,9 @@ from routers import openai
 
 origins = [
     "http://localhost:5173",
-    "https://ai-app-frontend-git-feat-chatbot-kevinxo328.vercel.app",
+    "https://ai-app-web-git-dev-kevinxo328.vercel.app",
+    "https://ai-app-web-git-main-kevinxo328.vercel.app",
+    "https://ai-app-web-kevinxo328.vercel.app",
 ]
 
 
