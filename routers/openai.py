@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
-import utils.openai as openai
 from typing import Union
+
+import utils.openai as openai
+from fastapi import APIRouter, HTTPException
 
 router = APIRouter(prefix="/api/openai", tags=["openai"])
 

@@ -1,5 +1,6 @@
-import openai
 from typing import Union
+
+import openai
 import utils.env as env
 
 openai.api_type = env.OPENAI_API_TYPE
