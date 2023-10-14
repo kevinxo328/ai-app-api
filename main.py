@@ -8,6 +8,6 @@ app = FastAPI()
 app.include_router(openai.router)
 
 
-@app.get('/', include_in_schema=False)
+@app.get("/", include_in_schema=False)
 def home():
-    return RedirectResponse('/docs')
+    return RedirectResponse("/docs")
