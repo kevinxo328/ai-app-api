@@ -8,7 +8,7 @@ origins = [
     "http://localhost:5173",
     "https://ai-app-web-git-dev-kevinxo328.vercel.app",
     "https://ai-app-web-git-main-kevinxo328.vercel.app",
-    "https://ai-app-web.vercel.app",
+    "https://ai-app-web-service.vercel.app",
 ]
 
 
