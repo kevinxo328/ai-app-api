@@ -19,7 +19,7 @@ async def chat_completion(message: str, temperature: Union[int, float] = 0):
             temperature=temperature,
         )
 
-        return OpenAISchema.ChatCompletion(**res.model_dump())
+        return OpenAISchema.ChatCompletion(**res)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
