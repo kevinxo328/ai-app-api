@@ -16,7 +16,13 @@ def chat_completion(
     model: str = env.GPT35_TURBO_COMPLETIONS_MODEL,
     temperature: Union[int, float] = 0,
 ) -> OpenAISchema.ChatCompletion:
-    res = openai.ChatCompletion.create(
+    openai_chat_completion = openai.ChatCompletion.create(
         engine=model, messages=messages, temperature=temperature
     )
-    return {"res": res, "content": res["choices"][0]["message"]["content"]}
+
+    res = {
+        "res": openai_chat_completion,
+        "content": openai_chat_completion["choices"][0]["message"]["content"],
+    }
+
+    return OpenAISchema.ChatCompletion(**res)
