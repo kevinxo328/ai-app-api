@@ -1,12 +1,14 @@
 from typing import Union
 
-import utils.openai as openai
 from fastapi import APIRouter, HTTPException
+
+import schemas.openai as OpenAISchema
+import utils.openai as openai
 
 router = APIRouter(prefix="/api/openai", tags=["openai"])
 
 
-@router.post("/chat_completion")
+@router.post("/chat_completion", response_model=OpenAISchema.ChatCompletion)
 async def chat_completion(message: str, temperature: Union[int, float] = 0):
     try:
         return openai.chat_completion(

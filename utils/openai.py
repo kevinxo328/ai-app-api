@@ -1,6 +1,8 @@
 from typing import Union
 
 import openai
+
+import schemas.openai as OpenAISchema
 import utils.env as env
 
 openai.api_type = env.OPENAI_API_TYPE
@@ -13,7 +15,7 @@ def chat_completion(
     messages: list,
     model: str = env.GPT35_TURBO_COMPLETIONS_MODEL,
     temperature: Union[int, float] = 0,
-):
+) -> OpenAISchema.ChatCompletion:
     res = openai.ChatCompletion.create(
         engine=model, messages=messages, temperature=temperature
     )
