@@ -25,4 +25,4 @@ def chat_completion(
         "content": openai_chat_completion["choices"][0]["message"]["content"],
     }
 
-    return OpenAISchema.ChatCompletion(**res)
+    return OpenAISchema.ChatCompletion(**res).model_dump()

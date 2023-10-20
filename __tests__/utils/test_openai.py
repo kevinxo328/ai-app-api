@@ -27,6 +27,4 @@ def test_chat_completion(mocker):
     res = openai.chat_completion(prompts)
 
     assert mock_chat_completion.call_count == 1
-    assert (
-        res.model_dump()["content"] == return_value["choices"][0]["message"]["content"]
-    )
+    assert res["content"] == return_value["choices"][0]["message"]["content"]
