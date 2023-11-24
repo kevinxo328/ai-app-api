@@ -28,7 +28,7 @@ def test_chat_completion(mocker):
         "utils.openai.chat_completion", return_value=return_value
     )
 
-    res = client.post("/api/openai/chat_completion", params={"message": "你好"})
+    res = client.post("/api/openai/chat_completion", json={"user_prompt": "你好"})
     assert mock_chat_completion.call_count == 1
     assert res.status_code == 200
     assert (

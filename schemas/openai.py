@@ -1,6 +1,8 @@
-from typing import Any
+from typing import Any, Union
 
 from pydantic import BaseModel
+
+import utils.env as env
 
 
 class ResOpenAIChatCompletion(BaseModel):
@@ -10,3 +12,10 @@ class ResOpenAIChatCompletion(BaseModel):
     model: str
     object: str
     usage: dict[str, int]
+
+
+class ReqChatCompletion(BaseModel):
+    user_prompt: str
+    temperature: Union[int, float] = 0
+    model: str = env.GPT35_MODEL
+    sys_prompt: str = ""
