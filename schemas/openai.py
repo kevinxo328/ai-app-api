@@ -1,10 +1,12 @@
+from typing import Any
+
 from pydantic import BaseModel
 
 
 class ResOpenAIChatCompletion(BaseModel):
     id: str
-    choices: list
+    choices: list[dict[str, Any]]
     created: int
     model: str
     object: str
-    usage: dict
+    usage: dict[str, int]
