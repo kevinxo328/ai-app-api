@@ -19,3 +19,4 @@ class ReqChatCompletion(BaseModel):
     temperature: Union[int, float] = 0
     model: str = env.GPT35_MODEL
     sys_prompt: str = ""
+    stream: bool = False
