@@ -15,14 +15,14 @@ async def chat_completion(
     message: str, temperature: Union[int, float] = 0, model: str = env.GPT35_MODEL
 ):
     try:
-        res = openai.chat_completion(
+        res: OpenAISchema.ResOpenAIChatCompletion = openai.chat_completion(
             messages=[
                 {"role": "user", "content": message},
             ],
             temperature=temperature,
         )
 
-        return OpenAISchema.ResOpenAIChatCompletion(**res)
+        return res
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

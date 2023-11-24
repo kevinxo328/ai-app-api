@@ -47,8 +47,10 @@ def chat_completion(
     model: str = env.GPT35_MODEL,
     temperature: Union[int, float] = 0,
 ) -> OpenAISchema.ResOpenAIChatCompletion:
-    openai_chat_completion = openai.ChatCompletion.create(
-        engine=model, messages=messages, temperature=temperature
+    openai_chat_completion: OpenAISchema.ResOpenAIChatCompletion = (
+        openai.ChatCompletion.create(
+            engine=model, messages=messages, temperature=temperature
+        )
     )
 
-    return OpenAISchema.ResOpenAIChatCompletion(**openai_chat_completion).model_dump()
+    return openai_chat_completion
