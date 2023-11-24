@@ -20,3 +20,7 @@ GPT35_TURBO_COMPLETIONS_MODEL_NAME = os.environ.get(
 
 EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL", "text-embedding-ada-002")
 EMBEDDING_MODEL_NAME = os.environ.get("EMBEDDING_MODEL_NAME", "text-embedding-ada-002")
+
+AZURE_OPENAI_RG = os.environ.get("AZURE_OPENAI_RG")
+AZURE_OPENAI_NAME = os.environ.get("AZURE_OPENAI_NAME")
+AZURE_OPENAI_SUBSCRIPTION_ID = os.environ.get("AZURE_OPENAI_SUBSCRIPTION_ID")

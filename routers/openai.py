@@ -23,3 +23,11 @@ async def chat_completion(message: str, temperature: Union[int, float] = 0):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/models")
+async def get_models():
+    try:
+        return openai.get_models_id()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
