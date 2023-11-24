@@ -11,6 +11,8 @@ python = "^3.9.0"
 fastapi = "^0.103.2"
 uvicorn = {extras = ["standard"], version = "^0.23.2"}
 openai = "^0.28.1"
+azure-identity = "^1.15.0"
+azure-mgmt-cognitiveservices = "^13.5.0"
 
 
 [tool.poetry.group.dev.dependencies]
