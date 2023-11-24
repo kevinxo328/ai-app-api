@@ -46,11 +46,17 @@ def chat_completion(
     messages: list[dict[str, str]],
     model: str = env.GPT35_MODEL,
     temperature: Union[int, float] = 0,
+    stream: bool = False,
 ) -> OpenAISchema.ResOpenAIChatCompletion:
     openai_chat_completion = openai.ChatCompletion.create(
-        engine=model,
-        messages=messages,
-        temperature=temperature,
+        engine=model, messages=messages, temperature=temperature, stream=stream
     )
 
     return openai_chat_completion
+
+
+def chat_completion_generator(res_openai_stream):
+    for chunk in res_openai_stream:
+        if "content" in chunk["choices"][0].delta:
+            current_response = chunk["choices"][0].delta.content
+            yield "data: " + current_response + "\n\n"

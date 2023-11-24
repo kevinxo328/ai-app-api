@@ -6,8 +6,8 @@ load_dotenv(override=True)
 
 # TODO: 用 pydantic 管理 env https://myapollo.com.tw/blog/python-pydantic/
 
-OPENAI_API_TYPE = os.environ.get("OPENAI_API_TYPE", "")
-OPENAI_API_VERSION = os.environ.get("OPENAI_API_VERSION", "")
+OPENAI_API_TYPE = os.environ.get("OPENAI_API_TYPE", "azure")
+OPENAI_API_VERSION = os.environ.get("OPENAI_API_VERSION", "2023-11-01")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_API_ENDPOINT = os.environ.get("OPENAI_API_ENDPOINT", "")
 

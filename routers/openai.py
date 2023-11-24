@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import StreamingResponse
 
 import schemas.openai as OpenAISchema
 import utils.openai as openai
@@ -19,7 +20,14 @@ async def chat_completion(params: OpenAISchema.ReqChatCompletion):
             messages=messages,
             temperature=params.temperature,
             model=params.model,
+            stream=params.stream,
         )
+
+        if params.stream:
+            return StreamingResponse(
+                openai.chat_completion_generator(res),
+                media_type="text/event-stream",
+            )
 
         return res
 
