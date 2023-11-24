@@ -8,8 +8,3 @@ class ResOpenAIChatCompletion(BaseModel):
     model: str
     object: str
     usage: dict
-
-
-class ChatCompletion(BaseModel):
-    res: ResOpenAIChatCompletion
-    content: str

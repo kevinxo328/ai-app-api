@@ -22,12 +22,7 @@ def test_chat_completion(mocker):
         ],
     }
 
-    return_value = OpenAISchema.ChatCompletion(
-        **{
-            "res": mock_data,
-            "content": mock_data["choices"][0]["message"]["content"],
-        }
-    ).model_dump()
+    return_value = OpenAISchema.ResOpenAIChatCompletion(**mock_data).model_dump()
 
     mock_chat_completion = mocker.patch(
         "utils.openai.chat_completion", return_value=return_value
@@ -36,4 +31,7 @@ def test_chat_completion(mocker):
     res = client.post("/api/openai/chat_completion", params={"message": "你好"})
     assert mock_chat_completion.call_count == 1
     assert res.status_code == 200
-    assert res.json()["content"] == return_value["content"]
+    assert (
+        res.json()["choices"][0]["message"]["content"]
+        == return_value["choices"][0]["message"]["content"]
+    )

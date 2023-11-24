@@ -10,19 +10,19 @@ router = APIRouter(prefix="/api/openai", tags=["openai"])
 
 
 # TODO: Global Exception https://stackoverflow.com/questions/61596911/catch-exception-globally-in-fastapi
-@router.post("/chat_completion", response_model=OpenAISchema.ChatCompletion)
+@router.post("/chat_completion", response_model=OpenAISchema.ResOpenAIChatCompletion)
 async def chat_completion(
     message: str, temperature: Union[int, float] = 0, model: str = env.GPT35_MODEL
 ):
     try:
-        res: OpenAISchema.ChatCompletion = openai.chat_completion(
+        res = openai.chat_completion(
             messages=[
                 {"role": "user", "content": message},
             ],
             temperature=temperature,
         )
 
-        return OpenAISchema.ChatCompletion(**res)
+        return OpenAISchema.ResOpenAIChatCompletion(**res)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
