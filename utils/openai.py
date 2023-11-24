@@ -44,7 +44,7 @@ def get_models_id():
 
 def chat_completion(
     messages: list,
-    model: str = env.GPT35_TURBO_COMPLETIONS_MODEL,
+    model: str = env.GPT35_MODEL,
     temperature: Union[int, float] = 0,
 ) -> OpenAISchema.ChatCompletion:
     openai_chat_completion = openai.ChatCompletion.create(
