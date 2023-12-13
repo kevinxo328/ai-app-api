@@ -3,3 +3,6 @@ __pycache__
 .ruff_cache
 .env
 .pytest_cache
+
+scripts/*
+!scripts/*.template.sh
