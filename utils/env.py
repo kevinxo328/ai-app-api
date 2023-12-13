@@ -18,3 +18,8 @@ EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL", "text-embedding-ada-002")
 AZURE_OPENAI_RG = os.environ.get("AZURE_OPENAI_RG", "")
 AZURE_OPENAI_NAME = os.environ.get("AZURE_OPENAI_NAME", "")
 AZURE_OPENAI_SUBSCRIPTION_ID = os.environ.get("AZURE_OPENAI_SUBSCRIPTION_ID", "")
+
+REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
+REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
+REDIS_USER = os.environ.get("REDIS_USER", "")
+REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD", "")
