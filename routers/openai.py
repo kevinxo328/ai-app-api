@@ -35,7 +35,7 @@ async def chat_completion(params: OpenAISchema.ReqChatCompletion):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/models", include_in_schema=False)
+@router.get("/models")
 async def get_models():
     try:
         return openai.get_models_id()

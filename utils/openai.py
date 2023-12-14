@@ -29,6 +29,7 @@ def get_models_id():
             {
                 "deployment_id": item.name,
                 "model": item.properties.model.name,
+                "version": item.properties.model.version,
             }
             for item in response
         )
