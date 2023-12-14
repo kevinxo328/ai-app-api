@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 
 import utils.redis as redis_utils
 
-router = APIRouter(prefix="/api/redis", tags=["redis"])
+router = APIRouter(prefix="/redis", tags=["redis"])
 
 
 @router.get("/health_check")

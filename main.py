@@ -23,8 +23,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(openai.router)
-app.include_router(redis.router)
+app.include_router(openai.router, prefix="/api")
+app.include_router(redis.router, prefix="/api")
 
 
 @app.get("/", include_in_schema=False)
