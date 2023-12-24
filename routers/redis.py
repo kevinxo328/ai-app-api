@@ -6,7 +6,7 @@ router = APIRouter(prefix="/redis", tags=["redis"])
 
 
 @router.get("/health_check")
-async def health_check():
+async def check_health():
     try:
         return redis_utils.redis_client.ping()
     except Exception as e:
