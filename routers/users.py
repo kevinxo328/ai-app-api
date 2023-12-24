@@ -10,17 +10,10 @@ router = APIRouter(prefix="/users", tags=["users"])
 sql_utils.Base.metadata.create_all(bind=sql_utils.engine)
 
 
-# Dependency
-def get_db():
-    db = sql_utils.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
 @router.get("", response_model=list[user_schemas.User])
-async def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+async def get_users(
+    skip: int = 0, limit: int = 100, db: Session = Depends(sql_utils.get_db)
+):
     try:
         users = user_services.get_users(db, skip=skip, limit=limit)
         return users
@@ -29,7 +22,7 @@ async def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_d
 
 
 @router.get("/user_id/{id}", response_model=user_schemas.User)
-async def get_user_by_id(email: int, db: Session = Depends(get_db)):
+async def get_user_by_id(email: int, db: Session = Depends(sql_utils.get_db)):
     try:
         user = user_services.get_user_by_email(db, email=email)
         return user
@@ -38,7 +31,7 @@ async def get_user_by_id(email: int, db: Session = Depends(get_db)):
 
 
 @router.get("/email/{email}", response_model=user_schemas.User)
-async def get_user_by_email(email: int, db: Session = Depends(get_db)):
+async def get_user_by_email(email: int, db: Session = Depends(sql_utils.get_db)):
     try:
         user = user_services.get_user_by_email(db, email=email)
         return user
@@ -47,7 +40,9 @@ async def get_user_by_email(email: int, db: Session = Depends(get_db)):
 
 
 @router.post("/users", response_model=user_schemas.User)
-def create_user(user_data: user_schemas.UserCreate, db: Session = Depends(get_db)):
+def create_user(
+    user_data: user_schemas.UserCreate, db: Session = Depends(sql_utils.get_db)
+):
     try:
         user = user_services.create_user(db, user_data)
         return user

@@ -1,20 +1,19 @@
-from fastapi import APIRouter
-from sqlalchemy import create_engine, text
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
 
-import utils.env as env
+import utils.sql as sql_utils
 
 router = APIRouter(prefix="/sql", tags=["sql"])
 
 
 @router.get("/health_check")
-async def check_health():
+async def check_health(db: Session = Depends(sql_utils.get_db)):
     try:
-        engine = create_engine(env.SQLALCHEMY_DATABASE_URL, echo=True)
-        Session = sessionmaker(bind=engine, autocommit=False, autoflush=False)
-        session = Session()
-        session.execute(text("SELECT 1"))
+        db.execute(text("SELECT 1"))
         return {"status": "OK"}
     except OperationalError as e:
-        return {"status": "Error", "message": str(e)}
+        return {"status": "ERROR", "detail": str(e)}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
