@@ -25,3 +25,23 @@ def create_user(db: Session, user: user_schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def delete_user(db: Session, user_id: int):
+    db_user = db.query(user_models.User).filter(user_models.User.id == user_id).first()
+    db.delete(db_user)
+    db.commit()
+    return db_user
+
+
+def update_user(db: Session, user_id: int, user: user_schemas.UserUpdate):
+    db_user = db.query(user_models.User).filter(user_models.User.id == user_id).first()
+    if not db_user:
+        return None
+    fake_hashed_password = user.password + "notreallyhashed"
+    db_user.hashed_password = fake_hashed_password
+    db_user.email = user.email
+    db_user.username = user.username
+    db.commit()
+    db.refresh(db_user)
+    return db_user

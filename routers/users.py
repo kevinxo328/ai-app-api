@@ -22,9 +22,9 @@ async def get_users(
 
 
 @router.get("/user_id/{id}", response_model=user_schemas.User)
-async def get_user_by_id(email: int, db: Session = Depends(sql_utils.get_db)):
+async def get_user_by_id(id: int, db: Session = Depends(sql_utils.get_db)):
     try:
-        user = user_services.get_user_by_email(db, email=email)
+        user = user_services.get_user_by_id(db, user_id=id)
         return user
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -40,7 +40,7 @@ async def get_user_by_email(email: int, db: Session = Depends(sql_utils.get_db))
 
 
 @router.post("/users", response_model=user_schemas.User)
-def create_user(
+async def create_user(
     user_data: user_schemas.UserCreate, db: Session = Depends(sql_utils.get_db)
 ):
     try:
@@ -50,13 +50,26 @@ def create_user(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# @router.put("/users/{user_id}")
-# def update_user(user_id: int, user_data: dict):
-#     # Logic to update a user by ID
-#     pass
+@router.put("/users/{user_id}")
+async def update_user(
+    user_id: int,
+    user_data: user_schemas.UserUpdate,
+    db: Session = Depends(sql_utils.get_db),
+):
+    try:
+        user = user_services.update_user(db, user_id, user_data)
+
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        return user
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
-# @router.delete("/users/{user_id}")
-# def delete_user(user_id: int):
-#     # Logic to delete a user by ID
-#     pass
+@router.delete("/users/{user_id}")
+async def delete_user(user_id: int, db: Session = Depends(sql_utils.get_db)):
+    try:
+        user = user_services.delete_user(db, user_id)
+        return user
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
