@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
-from routers import openai, redis, sql
+from routers import openai, redis, sql, users
 
 origins = [
     "http://localhost:5173",
@@ -26,6 +26,7 @@ app.add_middleware(
 app.include_router(openai.router, prefix="/api")
 app.include_router(redis.router, prefix="/api")
 app.include_router(sql.router, prefix="/api")
+app.include_router(users.router, prefix="/api")
 
 
 @app.get("/", include_in_schema=False)
