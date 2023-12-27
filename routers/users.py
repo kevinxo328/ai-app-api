@@ -31,7 +31,7 @@ async def get_user_by_id(id: int, db: Session = Depends(sql_utils.get_db)):
 
 
 @router.get("/email/{email}", response_model=user_schemas.User)
-async def get_user_by_email(email: int, db: Session = Depends(sql_utils.get_db)):
+async def get_user_by_email(email: str, db: Session = Depends(sql_utils.get_db)):
     try:
         user = user_services.get_user_by_email(db, email=email)
         return user
@@ -39,7 +39,7 @@ async def get_user_by_email(email: int, db: Session = Depends(sql_utils.get_db))
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/users", response_model=user_schemas.User)
+@router.post("/user", response_model=user_schemas.User)
 async def create_user(
     user_data: user_schemas.UserCreate, db: Session = Depends(sql_utils.get_db)
 ):
