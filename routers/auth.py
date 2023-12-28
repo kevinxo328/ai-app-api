@@ -5,8 +5,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 import schemas.auth as auth_schemas
+import security.auth as auth_security
 import services.user as user_service
-import utils.auth as auth_utils
 import utils.sql as sql_utils
 from utils.env import env
 
@@ -25,7 +25,7 @@ async def create_token(
         raise HTTPException(status_code=400, detail="Incorrect username or password")
 
     access_token_expires = timedelta(minutes=env.ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = auth_utils.create_access_token(
+    access_token = auth_security.create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
