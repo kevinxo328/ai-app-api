@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -73,3 +75,12 @@ async def delete_user(user_id: int, db: Session = Depends(sql_utils.get_db)):
         return user
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/current_active_user", response_model=user_schemas.User)
+async def get_current_active_user(
+    current_user: Annotated[user_schemas.User, Depends(get_user_by_email)]
+):
+    if not current_user:
+        raise HTTPException(status_code=404, detail="User not found or is not active")
+    return current_user
