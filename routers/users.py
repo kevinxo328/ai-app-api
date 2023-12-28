@@ -1,12 +1,17 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
+import schemas.auth as auth_schemas
 import schemas.user as user_schemas
 import services.user as user_services
 import utils.sql as sql_utils
+from utils.env import env
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/token")
 router = APIRouter(prefix="/users", tags=["users"])
 
 sql_utils.Base.metadata.create_all(bind=sql_utils.engine)
@@ -79,8 +84,27 @@ async def delete_user(user_id: int, db: Session = Depends(sql_utils.get_db)):
 
 @router.get("/current_active_user", response_model=user_schemas.User)
 async def get_current_active_user(
-    current_user: Annotated[user_schemas.User, Depends(get_user_by_email)]
+    token: Annotated[str, Depends(oauth2_scheme)],
+    db: Annotated[Session, Depends(sql_utils.get_db)],
 ):
-    if not current_user:
-        raise HTTPException(status_code=404, detail="User not found or is not active")
-    return current_user
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(
+            token, env.ACCESS_TOKEN_SECRET_KEY, algorithms=[env.ACCESS_TOKEN_ALGORITHM]
+        )
+
+        print(str(payload))
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+        token_data = auth_schemas.TokenData(username=username)
+    except JWTError:
+        raise credentials_exception
+    user = user_services.get_user_by_username(db, username=token_data.username)
+    if user is None:
+        raise credentials_exception
+    return user
