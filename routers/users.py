@@ -50,7 +50,7 @@ async def create_user(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.put("/users/{user_id}")
+@router.patch("/{user_id}", response_model=user_schemas.User)
 async def update_user(
     user_id: int,
     user_data: user_schemas.UserUpdate,
@@ -66,7 +66,7 @@ async def update_user(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.delete("/users/{user_id}")
+@router.delete("/{user_id}", response_model=user_schemas.User)
 async def delete_user(user_id: int, db: Session = Depends(sql_utils.get_db)):
     try:
         user = user_services.delete_user(db, user_id)
