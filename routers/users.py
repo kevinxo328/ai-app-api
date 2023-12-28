@@ -13,7 +13,11 @@ router = APIRouter(prefix="/users", tags=["users"])
 sql_utils.Base.metadata.create_all(bind=sql_utils.engine)
 
 
-@router.get("", response_model=list[user_schemas.User])
+@router.get(
+    "",
+    response_model=list[user_schemas.User],
+    dependencies=[Depends(auth_security.get_current_active_user)],
+)
 async def get_users(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_utils.get_db)
 ):
@@ -24,7 +28,11 @@ async def get_users(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/user_id/{id}", response_model=user_schemas.User)
+@router.get(
+    "/user_id/{id}",
+    response_model=user_schemas.User,
+    dependencies=[Depends(auth_security.get_current_active_user)],
+)
 async def get_user_by_id(id: int, db: Session = Depends(sql_utils.get_db)):
     try:
         user = user_services.get_user_by_id(db, user_id=id)
@@ -33,7 +41,11 @@ async def get_user_by_id(id: int, db: Session = Depends(sql_utils.get_db)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/email/{email}", response_model=user_schemas.User)
+@router.get(
+    "/email/{email}",
+    response_model=user_schemas.User,
+    dependencies=[Depends(auth_security.get_current_active_user)],
+)
 async def get_user_by_email(email: str, db: Session = Depends(sql_utils.get_db)):
     try:
         user = user_services.get_user_by_email(db, email=email)
@@ -53,7 +65,11 @@ async def create_user(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.patch("/{user_id}", response_model=user_schemas.User)
+@router.patch(
+    "/{user_id}",
+    response_model=user_schemas.User,
+    dependencies=[Depends(auth_security.get_current_active_user)],
+)
 async def update_user(
     user_id: int,
     user_data: user_schemas.UserUpdate,
@@ -69,7 +85,11 @@ async def update_user(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.delete("/{user_id}", response_model=user_schemas.User)
+@router.delete(
+    "/{user_id}",
+    response_model=user_schemas.User,
+    dependencies=[Depends(auth_security.get_current_active_user)],
+)
 async def delete_user(user_id: int, db: Session = Depends(sql_utils.get_db)):
     try:
         user = user_services.delete_user(db, user_id)
@@ -80,6 +100,6 @@ async def delete_user(user_id: int, db: Session = Depends(sql_utils.get_db)):
 
 @router.get("/current_active_user", response_model=user_schemas.User)
 async def get_current_active_user(
-    user: Annotated[user_schemas.User, Depends(auth_security.get_current_active_user)],
+    user: Annotated[user_schemas.User, Depends(auth_security.get_current_active_user)]
 ):
     return user
