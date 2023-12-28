@@ -1,6 +1,6 @@
 import redis
 
-import utils.env as env
+from utils.env import env
 
 redis_client = redis.Redis(
     host=env.REDIS_HOST,

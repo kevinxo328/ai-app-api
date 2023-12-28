@@ -1,31 +1,31 @@
-import os
+from pydantic_settings import BaseSettings
 
-from dotenv import load_dotenv
+# 用 pydantic 管理 env https://myapollo.com.tw/blog/python-pydantic/
+# https://docs.pydantic.dev/latest/concepts/pydantic_settings/
 
-load_dotenv(override=True)
 
-# TODO: 用 pydantic 管理 env https://myapollo.com.tw/blog/python-pydantic/
+class Env(BaseSettings):
+    OPENAI_API_TYPE: str = "azure"
+    OPENAI_API_VERSION: str = "2023-11-01"
+    OPENAI_API_KEY: str
+    OPENAI_API_ENDPOINT: str
+    GPT35_MODEL: str = "gpt-35-turbo"
+    GPT4_MODEL: str = "gpt-4"
+    EMBEDDING_MODEL: str = "text-embedding-ada-002"
+    AZURE_OPENAI_RG: str
+    AZURE_OPENAI_NAME: str
+    AZURE_OPENAI_SUBSCRIPTION_ID: str
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+    REDIS_USER: str
+    REDIS_PASSWORD: str
+    SQLALCHEMY_DATABASE_URL: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    ACCESS_TOKEN_ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_SECRET_KEY: str = "secret"
 
-OPENAI_API_TYPE = os.environ.get("OPENAI_API_TYPE", "azure")
-OPENAI_API_VERSION = os.environ.get("OPENAI_API_VERSION", "2023-11-01")
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
-OPENAI_API_ENDPOINT = os.environ.get("OPENAI_API_ENDPOINT", "")
+    class Config:
+        env_file = ".env"
 
-GPT35_MODEL = os.environ.get("GPT35_MODEL", "gpt-35-turbo")
-GPT4_MODEL = os.environ.get("GPT4_MODEL", "gpt-4")
-EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL", "text-embedding-ada-002")
 
-AZURE_OPENAI_RG = os.environ.get("AZURE_OPENAI_RG", "")
-AZURE_OPENAI_NAME = os.environ.get("AZURE_OPENAI_NAME", "")
-AZURE_OPENAI_SUBSCRIPTION_ID = os.environ.get("AZURE_OPENAI_SUBSCRIPTION_ID", "")
-
-REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
-REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
-REDIS_USER = os.environ.get("REDIS_USER", "")
-REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD", "")
-
-SQLALCHEMY_DATABASE_URL = os.environ.get("SQLALCHEMY_DATABASE_URL")
-
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
-ACCESS_TOKEN_ALGORITHM = os.environ.get("ACCESS_TOKEN_ALGORITHM", "HS256")
-ACCESS_TOKEN_SECRET_KEY = os.environ.get("ACCESS_TOKEN_SECRET_KEY", "secret")
+env = Env()

@@ -6,8 +6,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 import schemas.auth as auth_schemas
 import services.user as user_service
 import utils.auth as auth_utils
-import utils.env as env
 import utils.sql as sql_utils
+from utils.env import env
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 

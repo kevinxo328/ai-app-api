@@ -4,7 +4,7 @@ from typing import Union
 from jose import jwt
 from passlib.context import CryptContext
 
-import utils.env as env
+from utils.env import env
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
