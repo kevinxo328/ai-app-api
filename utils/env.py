@@ -20,9 +20,10 @@ class Env(BaseSettings):
     REDIS_USER: str
     REDIS_PASSWORD: str
     SQLALCHEMY_DATABASE_URL: str
+    JWT_ALGORITHM: str = "HS256"
+    JWT_SECRET_KEY: str = "secret"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
-    ACCESS_TOKEN_ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_SECRET_KEY: str = "secret"
+    REFRESH_TOKEN_EXPIRE_MINUTES: int = 1440
 
     class Config:
         env_file = ".env"

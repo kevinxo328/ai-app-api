@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 import schemas.user as user_schemas
-import security.auth as auth_security
+import security.oauth2 as oauth2_security
 import services.user as user_services
 import utils.sql as sql_utils
 
@@ -16,7 +16,7 @@ sql_utils.Base.metadata.create_all(bind=sql_utils.engine)
 @router.get(
     "",
     response_model=list[user_schemas.User],
-    dependencies=[Depends(auth_security.get_current_active_user)],
+    dependencies=[Depends(oauth2_security.get_current_active_user)],
 )
 async def get_users(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_utils.get_db)
@@ -31,7 +31,7 @@ async def get_users(
 @router.get(
     "/user_id/{id}",
     response_model=user_schemas.User,
-    dependencies=[Depends(auth_security.get_current_active_user)],
+    dependencies=[Depends(oauth2_security.get_current_active_user)],
 )
 async def get_user_by_id(id: int, db: Session = Depends(sql_utils.get_db)):
     try:
@@ -44,7 +44,7 @@ async def get_user_by_id(id: int, db: Session = Depends(sql_utils.get_db)):
 @router.get(
     "/email/{email}",
     response_model=user_schemas.User,
-    dependencies=[Depends(auth_security.get_current_active_user)],
+    dependencies=[Depends(oauth2_security.get_current_active_user)],
 )
 async def get_user_by_email(email: str, db: Session = Depends(sql_utils.get_db)):
     try:
@@ -68,7 +68,7 @@ async def create_user(
 @router.patch(
     "/{user_id}",
     response_model=user_schemas.User,
-    dependencies=[Depends(auth_security.get_current_active_user)],
+    dependencies=[Depends(oauth2_security.get_current_active_user)],
 )
 async def update_user(
     user_id: int,
@@ -88,7 +88,7 @@ async def update_user(
 @router.delete(
     "/{user_id}",
     response_model=user_schemas.User,
-    dependencies=[Depends(auth_security.get_current_active_user)],
+    dependencies=[Depends(oauth2_security.get_current_active_user)],
 )
 async def delete_user(user_id: int, db: Session = Depends(sql_utils.get_db)):
     try:
@@ -100,6 +100,6 @@ async def delete_user(user_id: int, db: Session = Depends(sql_utils.get_db)):
 
 @router.get("/current_active_user", response_model=user_schemas.User)
 async def get_current_active_user(
-    user: Annotated[user_schemas.User, Depends(auth_security.get_current_active_user)]
+    user: Annotated[user_schemas.User, Depends(oauth2_security.get_current_active_user)]
 ):
     return user
