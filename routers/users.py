@@ -1,3 +1,4 @@
+import uuid
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -33,7 +34,7 @@ async def get_users(
     response_model=user_schemas.User,
     dependencies=[Depends(oauth2_security.get_current_active_user)],
 )
-async def get_user_by_id(id: int, db: Session = Depends(sql_utils.get_db)):
+async def get_user_by_id(id: uuid.UUID, db: Session = Depends(sql_utils.get_db)):
     try:
         user = user_services.get_user_by_id(db, user_id=id)
         return user
@@ -71,7 +72,7 @@ async def create_user(
     dependencies=[Depends(oauth2_security.get_current_active_user)],
 )
 async def update_user(
-    user_id: int,
+    user_id: uuid.UUID,
     user_data: user_schemas.UserUpdate,
     db: Session = Depends(sql_utils.get_db),
 ):
@@ -90,7 +91,7 @@ async def update_user(
     response_model=user_schemas.User,
     dependencies=[Depends(oauth2_security.get_current_active_user)],
 )
-async def delete_user(user_id: int, db: Session = Depends(sql_utils.get_db)):
+async def delete_user(user_id: uuid.UUID, db: Session = Depends(sql_utils.get_db)):
     try:
         user = user_services.delete_user(db, user_id)
         return user

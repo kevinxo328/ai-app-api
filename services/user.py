@@ -1,3 +1,5 @@
+import uuid
+
 from sqlalchemy.orm import Session
 
 import models.user as user_models
@@ -5,7 +7,7 @@ import schemas.user as user_schemas
 import security.oauth2 as oauth2_security
 
 
-def get_user_by_id(db: Session, user_id: int):
+def get_user_by_id(db: Session, user_id: uuid.UUID):
     return db.query(user_models.User).filter(user_models.User.id == user_id).first()
 
 
@@ -35,14 +37,14 @@ def create_user(db: Session, user: user_schemas.UserCreate):
     return db_user
 
 
-def delete_user(db: Session, user_id: int):
+def delete_user(db: Session, user_id: uuid.UUID):
     db_user = db.query(user_models.User).filter(user_models.User.id == user_id).first()
     db.delete(db_user)
     db.commit()
     return db_user
 
 
-def update_user(db: Session, user_id: int, user: user_schemas.UserUpdate):
+def update_user(db: Session, user_id: uuid.UUID, user: user_schemas.UserUpdate):
     db_user = db.query(user_models.User).filter(user_models.User.id == user_id).first()
     if not db_user:
         return None
