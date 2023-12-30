@@ -26,7 +26,7 @@ class Env(BaseSettings):
     REFRESH_TOKEN_EXPIRE_MINUTES: int = 1440
 
     class Config:
-        env_file = ".env"
+        env_file = ".env.dev"
 
 
 env = Env()
