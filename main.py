@@ -5,8 +5,7 @@ from fastapi.responses import RedirectResponse
 from routers import auth, openai, redis, sql, users
 
 origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
+    "http://localhost:3000",
     "https://ai-app-web-git-dev-kevinxo328.vercel.app",
     "https://ai-app-web-git-main-kevinxo328.vercel.app",
     "https://ai-app-web-service.vercel.app",
