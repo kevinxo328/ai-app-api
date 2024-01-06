@@ -2,7 +2,7 @@ from typing import Any, Union
 
 from pydantic import BaseModel
 
-import utils.env as env
+from utils.env import env
 
 
 class ResOpenAIChatCompletion(BaseModel):

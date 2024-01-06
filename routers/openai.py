@@ -1,10 +1,15 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 
 import schemas.openai as OpenAISchema
+import security.oauth2 as oauth2_security
 import utils.openai as openai
 
-router = APIRouter(prefix="/api/openai", tags=["openai"])
+router = APIRouter(
+    prefix="/openai",
+    tags=["openai"],
+    dependencies=[Depends(oauth2_security.get_current_active_user)],
+)
 
 
 # TODO: Global Exception https://stackoverflow.com/questions/61596911/catch-exception-globally-in-fastapi
@@ -35,7 +40,7 @@ async def chat_completion(params: OpenAISchema.ReqChatCompletion):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/models", include_in_schema=False)
+@router.get("/models")
 async def get_models():
     try:
         return openai.get_models_id()

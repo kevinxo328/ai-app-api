@@ -5,7 +5,7 @@ from azure.identity import DefaultAzureCredential
 from azure.mgmt.cognitiveservices import CognitiveServicesManagementClient
 
 import schemas.openai as OpenAISchema
-import utils.env as env
+from utils.env import env
 
 openai.api_type = env.OPENAI_API_TYPE
 openai.api_base = env.OPENAI_API_ENDPOINT
@@ -29,6 +29,7 @@ def get_models_id():
             {
                 "deployment_id": item.name,
                 "model": item.properties.model.name,
+                "version": item.properties.model.version,
             }
             for item in response
         )
